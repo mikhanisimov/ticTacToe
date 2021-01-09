@@ -1,0 +1,105 @@
+﻿.cell {
+    background-color: #ffd800;
+    width: 100px;
+    height: 100px;
+    border-color: #808080;
+    border-radius: 20px;
+    border-width: 2px;
+    border-style: solid;
+    cursor: pointer;
+    display: inline-block;
+    margin: 2px;
+    text-align: center;
+    vertical-align: middle;
+    user-select: none;
+    -webkit-user-select: none; /* webkit (safari, chrome) browsers */
+    -moz-user-select: none; /* mozilla browsers */
+    -khtml-user-select: none; /* webkit (konqueror) browsers */
+    -ms-user-select: none; /* IE10+ */
+}
+.cell:hover{
+    background-color:#a18d8d;
+    transition-duration: .3s;
+}
+
+.internalPoint{
+    padding-top:26px;
+    color:black;
+    font-weight:bold;
+    font-family:Arial;
+    font-size:28pt;
+}
+#restart {
+    margin-top: 25px;
+    padding-top: 10px;
+    font-weight: bold;
+    font-family: Arial;
+    font-size: 14pt;
+    padding: 10px;
+    background-color: #ffd800;
+    border-color: black;
+    border-radius: 20px;
+    border-width: 2px;
+    border-style: solid;
+    cursor: pointer;
+    display: inline-block;
+    text-align: center;
+    vertical-align: middle;
+    user-select: none;
+    -webkit-user-select: none; /* webkit (safari, chrome) browsers */
+    -moz-user-select: none; /* mozilla browsers */
+    -khtml-user-select: none; /* webkit (konqueror) browsers */
+    -ms-user-select: none; /* IE10+ */
+}
+    #restart:hover {
+        background-color: #ffffff;
+        transition-duration: .3s;
+    }
+#theBiggest {
+    margin: auto;
+
+}
+#text1 {
+    padding-top: 10px;
+    color: #ffd800;
+    font-weight: bold;
+    font-family: 'Comic Sans MS';
+    font-size: 50pt;
+    
+}
+
+body{
+    margin:auto;
+    display:table;
+    background-color: black;
+}
+.highlightWinner {
+    background-color: #ff6a00;
+    transition-duration: 3s;
+}
+.arrow{
+    cursor: pointer;
+}
+.number {
+    color: white;
+    font-family: Calibri;
+    font-size: 50pt;
+    font-weight: bolder;
+    display: inline-block;
+    user-select: none;
+    -webkit-user-select: none; /* webkit (safari, chrome) browsers */
+    -moz-user-select: none; /* mozilla browsers */
+    -khtml-user-select: none; /* webkit (konqueror) browsers */
+    -ms-user-select: none; /* IE10+ */
+}
+.chooseGrid{
+    text-align: center;
+    padding: 0px;
+}
+#winnerName {
+    padding-top: 10px;
+    color: white;
+    font-weight: bold;
+    font-family: 'Comic Sans MS';
+    font-size: 20pt;
+}
