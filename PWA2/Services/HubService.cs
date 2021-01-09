@@ -31,8 +31,9 @@ namespace PWA2.Services
             string connectionId = "";
             if(Players.Count(x=>x.TableName == tableName) == 2)
             {
+                string ConcurentName = Players.First(x => x.Name != playerName).Name;
                 connectionId = Players.First(x => x.Name != playerName).ConnectionId;
-                await this.Clients.Client(connectionId).SendAsync("CellClick", i, j);
+                await this.Clients.Client(connectionId).SendAsync("CellClick", ConcurentName, i, j);
             }            
         }
         
