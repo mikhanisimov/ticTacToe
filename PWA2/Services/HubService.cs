@@ -12,7 +12,7 @@ namespace PWA2.Services
         public async Task Send(string message)
         {
             await this.Clients.All.SendAsync("Send", message);
-        }
+        }        
 
         public void Register(string tableName, string playerName)
         {

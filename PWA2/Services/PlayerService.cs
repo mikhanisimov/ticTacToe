@@ -9,6 +9,11 @@ namespace PWA2.Services
     public static class PlayerService
     {
         private static List<Player> _players;
+
+        public static string TableName { get {
+                return "Table";
+            } }
+
         public static List<Player> Players { 
             get {
                 if (_players == null)
