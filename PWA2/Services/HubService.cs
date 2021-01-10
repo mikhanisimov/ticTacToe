@@ -26,7 +26,7 @@ namespace PWA2.Services
             Players.Add(player);
         }
 
-        public async Task CellClick(string playerName, string tableName, int i, int j)
+        public async Task CellClick(string tableName, string playerName, int i, int j, string symbol)
         {
             string connectionId = "";
             if(Players.Count(x=>x.TableName == tableName) == 2)

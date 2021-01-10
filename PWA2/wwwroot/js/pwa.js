@@ -1,7 +1,16 @@
 ﻿$(document).ready(function () {
     let a = 3
     let symbol = "X"
-    startGame()
+    let playerName = ''
+    let tableName = ''
+
+    const hubConnection = new signalR.HubConnectionBuilder()
+        .withUrl("/chat")
+        .build();
+    hubConnection.start();
+
+    startGame();
+
     $('#leftArr').click(function () {
         if (a>=4) {
             a -= 1
@@ -9,6 +18,7 @@
             startGame()
         }
     })
+
     $('#rightArr').click(function () {
         if (a <=9) {
             a += 1
@@ -18,12 +28,18 @@
     })
 
     $('#restart').click(function () {
-        //for (var i = 0; i < a; i++) {
-        //    for (var j = 0; j < a; j++) {
-        //        $("#cell-" + i + "-" + j).html("")
-        //    }
-        //}
         startGame()
+    })
+
+    $('#btnName').click(function () {
+        playerName = $('#name').val()
+        showPage(2)
+    })
+
+    $('.table').click(function () {
+        tableName = $(this).attr('id')
+        hubConnection.invoke("Register", tableName, playerName)
+        showPage(3)
     })
 
     function startGame() {
@@ -37,6 +53,7 @@
 
                 $("#root").append("<div class='cell' id='cell-" + i + "-" + j + "'></div>")
                 $("#cell-" + i + "-" + j).click(function () {
+
                     if ($(this).html() == "") {
                         $(this).html("<div class='internalPoint'>" + symbol + "</div>");
 
@@ -47,6 +64,7 @@
                             symbol = "O"
                         }
                     }
+
                     let arr = checkWin(a)
                     if (arr != null) {
                         $("#cell-" + arr[0][0] + "-" + arr[0][1]).addClass('highlightWinner')
@@ -56,6 +74,7 @@
                         breakEvent();
                     }
 
+                    hubConnection.invoke("CellClick", tableName, playerName, i, j, symbol)
                 })
 
                 $("#root").append("</div>")
@@ -123,6 +142,14 @@
                 $("#cell-" + i + "-" + j).off("click");
             }
         }
+    }
+
+    function showPage(n){
+        for (var i = 0; i < 2; i++) {
+            $(`#page${i + 1}`).hide()
+        }
+
+        $(`#page${n}`).show()
     }
 
 });
