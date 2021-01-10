@@ -9,8 +9,6 @@ namespace PWA2.Services
 {
     public class HubService:Hub
     {
-        List<Player> Players = new List<Player>();
-
         public async Task Send(string message)
         {
             await this.Clients.All.SendAsync("Send", message);
@@ -23,16 +21,16 @@ namespace PWA2.Services
             player.ConnectionId = Context.ConnectionId;
             player.TableName = tableName;
             player.Registered = DateTime.Now;
-            Players.Add(player);
+            PlayerService.Players.Add(player);
         }
 
         public async Task CellClick(string playerName, string tableName, int i, int j)
         {
             string connectionId = "";
-            if(Players.Count(x=>x.TableName == tableName) == 2)
+            if(PlayerService.Players.Count(x=>x.TableName == tableName) == 2)
             {
-                string ConcurentName = Players.First(x => x.Name != playerName).Name;
-                connectionId = Players.First(x => x.Name != playerName).ConnectionId;
+                string ConcurentName = PlayerService.Players.First(x => x.Name != playerName).Name;
+                connectionId = PlayerService.Players.First(x => x.Name != playerName).ConnectionId;
                 await this.Clients.Client(connectionId).SendAsync("CellClick", ConcurentName, i, j);
             }            
         }
