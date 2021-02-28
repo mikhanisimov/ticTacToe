@@ -8,6 +8,7 @@
 
 'use strict';
 
+let PeerName = "PeerName1";
 let localConnection;
 let remoteConnection;
 let sendChannel;
@@ -17,10 +18,15 @@ const dataChannelReceive = document.querySelector('textarea#dataChannelReceive')
 const startButton = document.querySelector('button#startButton');
 const sendButton = document.querySelector('button#sendButton');
 const closeButton = document.querySelector('button#closeButton');
+const connectButton = document.querySelector('button#connectButton');
 
 startButton.onclick = createConnection;
 sendButton.onclick = sendData;
 closeButton.onclick = closeDataChannels;
+
+connectButton.onclick = function () {
+    //window.secondConnection = 
+}
 
 function enableStartButton() {
     startButton.disabled = false;
@@ -34,36 +40,41 @@ function createConnection() {
     dataChannelSend.placeholder = '';
     const servers = null;
     window.localConnection = localConnection = new RTCPeerConnection(servers);
-    console.log('Created local peer connection object localConnection');
-
     sendChannel = localConnection.createDataChannel('sendDataChannel');
-    console.log('Created send data channel');
 
     localConnection.onicecandidate = e => {
-        onIceCandidate(localConnection, e);
+        localConnection.addIceCandidate(e.candidate);
     };
-    sendChannel.onopen = onSendChannelStateChange;
-    sendChannel.onclose = onSendChannelStateChange;
-
-    window.remoteConnection = remoteConnection = new RTCPeerConnection(servers);
-    console.log('Created remote peer connection object remoteConnection');
-
-    remoteConnection.onicecandidate = e => {
-        onIceCandidate(remoteConnection, e);
-    };
-    remoteConnection.ondatachannel = receiveChannelCallback;
 
     localConnection.createOffer().then(
-        gotDescription1,
-        onCreateSessionDescriptionError
+        function (desc) {
+            var sdesc = btoa(JSON.stringify(desc));
+            $.ajax({
+                url: "/api/offer/register",
+                method: "POST",
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                },
+                dataType: "json",
+                data: `{ "IceDescription": "${sdesc}", "PeerName":"${PeerName}"}`,
+                success: function (data) {
+                    var x = data;
+                },
+                error: function (error) {
+                    var x = error;
+                }
+            });
+            localConnection.setLocalDescription(desc);
+        },
+        function (error) {
+
+        }
     );
     startButton.disabled = true;
     closeButton.disabled = false;
 }
 
-function onCreateSessionDescriptionError(error) {
-    console.log('Failed to create session description: ' + error.toString());
-}
 
 function sendData() {
     const data = dataChannelSend.value;
