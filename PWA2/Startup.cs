@@ -57,6 +57,10 @@ namespace PWA2
                 endpoints.MapHub<HubService>("/chat");
             });
 
+            app.UseEndpoints(endpoints => {
+                endpoints.MapHub<PeersService>("/peershub");
+            });
+
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapRazorPages();

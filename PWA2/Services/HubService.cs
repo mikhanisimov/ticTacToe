@@ -13,7 +13,6 @@ namespace PWA2.Services
         {
             await this.Clients.All.SendAsync("Send", message);
         }        
-
         public void Register(string tableName, string playerName)
         {
             Player player = new Player();
@@ -24,7 +23,6 @@ namespace PWA2.Services
             PlayerService.Players.Add(player);
             //this.Clients.Client(player.ConnectionId).SendAsync("CellClick", "ConcurentName", 1, 1).Wait();
         }
-
         public async Task CellClick(string tableName, string playerName, int i, int j, string symbol)
         {
             string connectionId = "";

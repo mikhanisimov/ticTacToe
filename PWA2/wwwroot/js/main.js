@@ -17,16 +17,24 @@ const dataChannelSend = document.querySelector('textarea#dataChannelSend');
 const dataChannelReceive = document.querySelector('textarea#dataChannelReceive');
 const startButton = document.querySelector('button#startButton');
 const sendButton = document.querySelector('button#sendButton');
-const closeButton = document.querySelector('button#closeButton');
-const connectButton = document.querySelector('button#connectButton');
+
 
 startButton.onclick = createConnection;
 sendButton.onclick = sendData;
-closeButton.onclick = closeDataChannels;
 
-connectButton.onclick = function () {
-    //window.secondConnection = 
-}
+
+
+const peerConnection = new signalR.HubConnectionBuilder()
+    .withUrl("/peershub")
+    .build();
+peerConnection.start();
+
+peerConnection.on("ReceiveAnswer", function (sdpOffer) {
+    var x = "";
+    var remDesr = JSON.parse(atob(sdpOffer.iceDescription));
+    localConnection.setRemoteDescription(remDesr);
+});
+
 
 function enableStartButton() {
     startButton.disabled = false;
@@ -40,41 +48,57 @@ function createConnection() {
     dataChannelSend.placeholder = '';
     const servers = null;
     window.localConnection = localConnection = new RTCPeerConnection(servers);
+
     sendChannel = localConnection.createDataChannel('sendDataChannel');
+    localConnection.ondatachannel = function (event) {
+        var receiveChannel = event.channel;
+        receiveChannel.onmessage = function (event) {
+            var txt = event.data;
+        }
+    }
 
     localConnection.onicecandidate = e => {
         localConnection.addIceCandidate(e.candidate);
     };
 
-    localConnection.createOffer().then(
-        function (desc) {
-            var sdesc = btoa(JSON.stringify(desc));
-            $.ajax({
-                url: "/api/offer/register",
-                method: "POST",
-                headers: {
-                    'Accept': 'application/json',
-                    'Content-Type': 'application/json'
-                },
-                dataType: "json",
-                data: `{ "IceDescription": "${sdesc}", "PeerName":"${PeerName}"}`,
-                success: function (data) {
-                    var x = data;
-                },
-                error: function (error) {
-                    var x = error;
-                }
-            });
-            localConnection.setLocalDescription(desc);
+    $.ajax({
+        url: "/api/offers/free",
+        method: "GET",
+        contentType: "application/json",
+        success: function (sdpOffer) {
+            if (sdpOffer == undefined) {
+                ///---generate offer
+                localConnection.createOffer().then(
+                    function (desc) {
+                        var sdesc = btoa(JSON.stringify(desc));
+                        peerConnection.invoke("RegisterOffer", { "IceDescription": sdesc, "PeerName": PeerName });
+                        localConnection.setLocalDescription(desc);
+                    },
+                    function (error) {
+
+                    }
+                );
+            } else {
+                ///---generate answer based on sdp offer
+                var remDesr = JSON.parse(atob(sdpOffer.iceDescription));
+                localConnection.setRemoteDescription(remDesr);
+                localConnection.createAnswer().then(
+                    function (desc) {
+                        var sdesc = btoa(JSON.stringify(desc));
+                        peerConnection.invoke("SendAnswer", { "IceDescription": sdesc, "PeerName": PeerName }, sdpOffer.connectionId);
+                    },
+                    function (error) {
+                        var x = error;
+                    }
+                );
+
+            }
         },
-        function (error) {
-
+        error: function (error) {
+            var x = error;
         }
-    );
-    startButton.disabled = true;
-    closeButton.disabled = false;
+    });
 }
-
 
 function sendData() {
     const data = dataChannelSend.value;

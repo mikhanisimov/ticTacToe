@@ -4,6 +4,7 @@ using PWA2.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography.X509Certificates;
 using System.Threading.Tasks;
 
 namespace PWA2.Controllers
@@ -12,19 +13,23 @@ namespace PWA2.Controllers
     public class PeerAPIController : ControllerBase
     {
 
-        [HttpPost("api/offer/register")]
-        public SdpOffer RegisterPeer(SdpOffer iceDescription)
+        //[HttpGet("api/offers/{name}")]
+        //public List<SdpOffer> PeerList(string name)
+        //{            
+        //    return ConnectionManager.Offers.Where(x=>x.PeerName != name).ToList();
+        //}
+
+        [HttpGet("api/offers/free")]
+        public SdpOffer GetFirstFree()
         {
-            ConnectionManager.Offers.Add(iceDescription);
-            return iceDescription;
+            if(ConnectionManager.Offers.Count(x=>x.Connected == null || x.Connected == DateTime.MinValue) > 0)
+            {
+                return ConnectionManager.Offers.First(x => x.Connected == null || x.Connected == DateTime.MinValue);
+            }
+            else
+            {
+                return null;
+            }
         }
-
-        [HttpGet("api/offers/{name}")]
-        public List<SdpOffer> PeerList(string name)
-        {            
-            return ConnectionManager.Offers.Where(x=>x.PeerName != name).ToList();
-        }
-
-
     }
 }
