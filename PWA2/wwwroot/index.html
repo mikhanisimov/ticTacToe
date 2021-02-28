@@ -8,60 +8,61 @@
     <link href="css/pwa.css" rel="stylesheet" />
     <script src="js/signalr/dist/browser/signalr.min.js"></script>
     <script src="js/pwa.js"></script>
-
+    <style type="/css/pwa.css"></style>
     <script>
         $(document).ready(function () {
             var startDate, delay;
 
 
-
-            //$("#btnSend").click(function () {
-            //    let message = $("#message").val();
-            //    startDate = (new Date()).getTime();
-            //    hubConnection.invoke("Register", tableName);
-            //});
-
-            //hubConnection.on("Send", function (data) {
-            //    delay = (new Date()).getTime() - startDate;
-            //    $("#chat").text(data + ". Delay in milisec is: " + delay);
-            //});
-
-            //hubConnection.start();
         });
     </script>
-
-
-    <title></title>
+    <title>Tic Tac-Toe</title>
 </head>
 <body>
+    <div class="navbar">
+      <a class="active" href="#">Home</a> 
+      <a href="#">Search</a> 
+      <a href="#">Contact</a> 
+      <a href="#">Login</a>
+    </div>
+    <div id="page0">
+        
+        <div class="chooseGrid">
+
+            
+            <input type="text" id="name" class="field" placeholder="Enter your name" />
+            <div id="btnName" class="btn">Enter</div>
+        </div>
+    </div>
     <div id="page1">
         <div class="chooseGrid">
-            <input type="text" id="name" class="field" placeholder="Enter your name" />
 
+            <div class="text1">Multiplayer </div>
+            <div class="text1">tic-tac toe</div>
+
+            <input type="text" id="name" class="field" placeholder="Enter your name" />
             <div id="btnName" class="btn">Enter</div>
         </div>
     </div>
     <div id="page2">
         <div class="text1">Choose table:</div>
-        <div class="chooseGrid">
-            <div>
-                <div id="table1" class="btn inlineBlock table">table1</div>
-                <div id="table2" class="btn inlineBlock table">table2</div>
-            </div>
-            <div>
-                <div id="table3" class="btn inlineBlock table">table3</div>
-                <div id="table4" class="btn inlineBlock table">table4</div>
-            </div>
+        <div class="chooseGrid" id="tableBox">
+            
         </div>
     </div>
 
     <div id="page3">
         <div class="text1">Tic-tac toe</div>
+        <div class="text2" id="concurentName"></div>
+        <div class="text2" id="tableNumber"></div>
+        <div class="text2" id="mySymbol"></div>
+        <div class="text2" id="moveTurn"></div>
         <div class="chooseGrid">
             <div class="arrow number" id="leftArr"><</div>
             <div class="number" id="gridSide">3</div>
             <div class="arrow number" id="rightArr">></div>
         </div>
+
         <div id="theBiggest">
             <div class="chooseGrid">
                 <div id="chat" class="arrow number"></div><p></p>

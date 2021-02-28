@@ -13,6 +13,9 @@ namespace PWA2.Controllers
     [ApiController]
     public class GameController : ControllerBase
     {
+
+        
+
         [HttpGet("players/{tableName}")]
         public List<Player> getPlayers(string tableName)
         {
@@ -34,10 +37,11 @@ namespace PWA2.Controllers
             if (ret.Count() < 4)
             {
                 List<int> tableNumbers = PlayerService.Players.Select(x => int.Parse(x.TableName.Replace(PlayerService.TableName, ""))).ToList();
-                int maxNumber = tableNumbers.Count() > 0? tableNumbers.Max():1;
-                for (int i = maxNumber; i <= (4 + maxNumber) - ret.Count(); i++)
+                int maxNumber = tableNumbers.Count() > 0? tableNumbers.Max():0;
+                int b = ret.Count();
+                for (int i = 0; i <= (4 - b); i++)
                 {
-                    ret.Add(PlayerService.TableName+i.ToString());
+                    ret.Add(PlayerService.TableName+(maxNumber+1+ i).ToString());
                 }
             }           
             return ret;
