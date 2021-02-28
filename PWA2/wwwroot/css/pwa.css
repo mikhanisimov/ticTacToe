@@ -1,4 +1,43 @@
-﻿.cell {
+﻿body{
+    margin: ;
+    display:table;
+    background-color: #222831;
+}
+.navbar {
+  width: 100%;
+  background-color: #555;
+  overflow: auto;
+}
+.navbar a {
+  float: left;
+  padding: 12px;
+  color: white;
+  text-decoration: none;
+  font-size: 17px;
+  width: 25%; /* Four links of equal widths */
+  text-align: center;
+}
+
+.navbar a:hover {
+  background-color: #000;
+}
+
+.navbar a.active {
+  background-color: #4CAF50;
+}
+
+@media screen and (max-width: 500px) {
+  .navbar a {
+    float: none;
+    display: block;
+    width: 100%;
+    text-align: left;
+  }
+}
+.active {
+    background-color: #4CAF50;
+}
+.cell {
     background-color: #ffd800;
     width: 100px;
     height: 100px;
@@ -43,11 +82,12 @@
     font-size: 50pt;
     
 }
-
-body{
-    margin:auto;
-    display:table;
-    background-color: black;
+.text2 {
+    padding-top: 10px;
+    color: #ffd800;
+    font-weight: bold;
+    font-family: 'Comic Sans MS';
+    font-size: 20pt;
 }
 .highlightWinner {
     background-color: #ff6a00;
@@ -77,7 +117,7 @@ body{
     color: white;
     font-weight: bold;
     font-family: 'Comic Sans MS';
-    font-size: 20pt;
+    font-size: 25pt;
 }
 #page1{
     display: block;
@@ -91,20 +131,27 @@ body{
 }
 .btn {
     display: block;
+
+    margin-left: auto;
+    margin-right: auto;
+
     margin-top: 25px;
-    padding-top: 10px;
     font-weight: bold;
     font-family: Arial;
     font-size: 14pt;
     padding: 10px;
     background-color: #ffd800;
+    padding-top: 10px;
+
     border-color: black;
     border-radius: 20px;
     border-width: 2px;
     border-style: solid;
+
     cursor: pointer;
     text-align: center;
     vertical-align: middle;
+    /*none selecting*/
     user-select: none;
     -webkit-user-select: none; /* webkit (safari, chrome) browsers */
     -moz-user-select: none; /* mozilla browsers */
@@ -116,26 +163,34 @@ body{
     background-color: #ffffff;
     transition-duration: .3s;
 }
+.lastMove {
+    background-color: #00ff90;
+}
 
 .inlineBlock{
     display:inline-block;
 }
-.field {
-    display: inline-block;
-    margin-top: 25px;
+input{
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 50px;
     padding-top: 10px;
     font-weight: bold;
     font-family: Arial;
     font-size: 14pt;
     padding: 10px;
     background-color: white;
+
     border-color: black;
     border-radius: 20px;
     border-width: 2px;
     border-style: solid;
-    cursor: pointer;
+
+    cursor: text;
     text-align: center;
     vertical-align: middle;
+
     user-select: none;
     -webkit-user-select: none; /* webkit (safari, chrome) browsers */
     -moz-user-select: none; /* mozilla browsers */
